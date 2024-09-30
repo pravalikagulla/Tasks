@@ -20,7 +20,7 @@ import com.example.demo.Dto.RecruiterDTO;
 import com.example.demo.Dto.RecruiterLoginDTO;
 import com.example.demo.Service.RecruiterService;
 import com.example.demo.entity.APIResponse;
-import com.example.demo.entity.JobPostDetailsEntity;
+import com.example.demo.validation.UniqueEmailValidator;
 
 import jakarta.validation.Valid;
 
@@ -63,11 +63,15 @@ public class RecruiterController {
 	 String responsemessage  = recruiterservice.deleteRecruiterByEmail(email);
 	  return new ResponseEntity<>(new APIResponse<>(responsemessage,null,HttpStatus.OK.value()),HttpStatus.OK);
   } 
- @PostMapping("/recruiter/postjob/")
- public ResponseEntity<APIResponse<JobPostDetailsDTO>>postJob(@RequestParam String email, JobPostDetailsDTO jobPostDto){
-	JobPostDetailsDTO jobpost = RecruiterService.postJob(email,jobPostDto);
-	return new ResponseEntity<>(new APIResponse<>("posted sucessfully",jobpost,HttpStatus.OK.value()), HttpStatus.OK);
- }
+
+  @PostMapping("/postjob/{email}")
+  public ResponseEntity<APIResponse<JobPostDetailsDTO>>postJob(@PathVariable  String email, @RequestBody @Valid JobPostDetailsDTO jobPostDetailsDTO) {
+      JobPostDetailsDTO createdJob = recruiterservice.postJob(email, jobPostDetailsDTO);
+      return new ResponseEntity<>(new APIResponse<>("job created sucessfully",createdJob,HttpStatus.OK.value()), HttpStatus.CREATED);
 }
-   
+}
+
+
+        
+      
 

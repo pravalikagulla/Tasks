@@ -2,39 +2,36 @@ package com.example.demo.Dto;
 
 import java.util.List;
 
-import jakarta.validation.constraints.Min;
+import com.example.demo.entity.Skill;
+import com.example.demo.validation.JobPostValidator;
+
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Size;
 
+
+@JobPostValidator
 public class JobPostDetailsDTO {
+@NotBlank(message = "the job title cannot be empty")	
+private String jobTitle;
+private String jobDescription;
+
+private int  minimumExperience;
+
+private int maximumExperience;
+
+
+private double minimumSalary;
+
+private double maximumSalary;	
+private String qualification;
 	
-@NotBlank(message = "please enter a valid jobTitle")
-	private String jobTitle;
+private String specialization;
 
-@Size(min = 15 , message = "Description is required and must be at least 15 characters long")
-	private String jobDescription;
-@Min(value = 0 ,message = "minimum experience is required")
-	private int  minimumExperience;
+private String location;
+	
+private String industryType;
 
-@Min(value = 0 , message = "maximum experience is required")
-	private int maximumExperience;
-
-@Min(value = 0, message = "minimum salary is required")
-	private double minimumSalary;
-@Min(value = 0, message = "maximum salary is required")	
-	private double maximumSalary;
-@NotBlank(message = "qualification is required")	
-	private String qualification;
-@NotBlank(message = "specialization is required")	
-	private String specialization;
-@NotBlank(message = "location is required")	
-	private String location;
-@NotBlank(message = "industry type is required")	
-	private String industryType;
-@NotBlank(message = "job type is required")	
-	private String jobType;
-@NotBlank(message = "please select atleast one skill")
-private List<String> skills;
+private String jobType;
+private List<SkillDTO> skills;
 	
 
 
@@ -126,31 +123,15 @@ private List<String> skills;
 		this.jobType = jobType;
 	}
 
-	
-	public List<String> getSkills() {
+	public List<SkillDTO> getSkills() {
 		return skills;
 	}
 
-	public void setSkills(List<String> skills) {
+	public void setSkills(List<SkillDTO> skills) {
 		this.skills = skills;
 	}
+
 	public JobPostDetailsDTO() {
 	}
-	public JobPostDetailsDTO(String jobTitle, String jobDescription, int minimumExperience, int maximumExperience,
-			double minimumSalary, double maximumSalary, String qualification, String specialization, String location,
-			String industryType, String jobType, List<String> skills) {
-
-		this.jobTitle = jobTitle;
-		this.jobDescription = jobDescription;
-		this.minimumExperience = minimumExperience;
-		this.maximumExperience = maximumExperience;
-		this.minimumSalary = minimumSalary;
-		this.maximumSalary = maximumSalary;
-		this.qualification = qualification;
-		this.specialization = specialization;
-		this.location = location;
-		this.industryType = industryType;
-		this.jobType = jobType;
-		this.skills = skills;
-	}
+	
 }

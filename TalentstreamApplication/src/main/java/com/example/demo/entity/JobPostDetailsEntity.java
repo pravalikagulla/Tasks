@@ -1,50 +1,43 @@
 package com.example.demo.entity;
 import java.util.List;
 
+import com.example.demo.validation.JobPostValidator;
+
+import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Size;
-
+import jakarta.persistence.ManyToMany;
+@Entity
+@JobPostValidator
 public class JobPostDetailsEntity {
 
 @Id
 @GeneratedValue(strategy = GenerationType.IDENTITY)
 private int id;
 		
-@NotBlank(message = "please enter a valid jobTitle")
 private String jobTitle;
 
-@Size(min = 15 , message = "Description is required and must be at least 15 characters long")
-private String jobDescription;
-@Min(value = 0 ,message = "minimum experience is required")
+private String jobDescription; 
 private int  minimumExperience;
-@Min(value = 0 , message = "maximum experience is required")
 private int maximumExperience;
-@Min(value = 0, message = "minimum salary is required")
+
 private double minimumSalary;
-@Min(value = 0, message = "maximum salary is required")	
-private double maximumSalary;
-@NotBlank(message = "qualification is required")	
+
+private double maximumSalary;	
 private String qualification;
-@NotBlank(message = "specialization is required")	
+
 private String specialization;
-@NotBlank(message = "location is required")	
+
 private String location;
-@NotBlank(message = "industry type is required")	
+	
 private String industryType;
-@NotBlank(message = "job type is required")	
+	
 private String jobType;
-@NotBlank(message = "please select atleast one skill")
-private List<String> skills;
-@ManyToOne
-@JoinColumn(name = "recruiter_id") 
-private Recruiter recruiter;
-		
+@ManyToMany
+private List<Skill> skills;
+//@ManyToOne
+//private Recruiter recruiter; 
 
 
 public String getJobTitle() {
@@ -138,41 +131,19 @@ public String getJobTitle() {
 		}
 
 		
-		public List<String> getSkills() {
+
+		public List<Skill> getSkills() {
 			return skills;
 		}
 
-		public void setSkills(List<String> skills) {
+		public void setSkills(List<Skill> skills) {
 			this.skills = skills;
 		}
 
-		public Recruiter getRecruiter() {
-			return recruiter;
-		}
-
-		public void setRecruiter(Recruiter recruiter) {
-			this.recruiter = recruiter;
-		}
 
 		public JobPostDetailsEntity() {
 		}
-		public JobPostDetailsEntity(String jobTitle, String jobDescription, int minimumExperience, int maximumExperience,
-				double minimumSalary, double maximumSalary, String qualification, String specialization, String location,
-				String industryType, String jobType, List<String> skills) {
-
-			this.jobTitle = jobTitle;
-			this.jobDescription = jobDescription;
-			this.minimumExperience = minimumExperience;
-			this.maximumExperience = maximumExperience;
-			this.minimumSalary = minimumSalary;
-			this.maximumSalary = maximumSalary;
-			this.qualification = qualification;
-			this.specialization = specialization;
-			this.location = location;
-			this.industryType = industryType;
-			this.jobType = jobType;
-			this.skills = skills;
-		}
-	}
+	
+}
 
 

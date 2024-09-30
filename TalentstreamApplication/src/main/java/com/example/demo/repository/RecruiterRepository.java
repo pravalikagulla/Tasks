@@ -16,6 +16,7 @@ public interface RecruiterRepository extends JpaRepository<Recruiter, Integer>{
 	
 	Optional<Recruiter>findByEmail(String email);
 	
+	
 
 	
 

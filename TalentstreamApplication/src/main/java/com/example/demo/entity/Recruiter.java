@@ -45,7 +45,7 @@ public class Recruiter {
     @PasswordValidator
 	private String password;
 	
-@OneToMany(mappedBy = "recruiter" ,  cascade = CascadeType.ALL)
+@OneToMany (cascade = CascadeType.ALL)
 private List<JobPostDetailsEntity> jobPosts;
 	
 	public int getId() {
@@ -86,7 +86,20 @@ private List<JobPostDetailsEntity> jobPosts;
 	public void setJobPosts(List<JobPostDetailsEntity> jobPosts) {
 		this.jobPosts = jobPosts;
 	}
-	
+	public Recruiter() {
+	}
+	public Recruiter(int id, @NotBlank(message = "companyname is required") String companyname,
+			@NotBlank(message = "email is required") String email,
+			@NotEmpty(message = "mobilenumber is required") String mobileNumber,
+			@NotEmpty(message = "password is required") String password, List<JobPostDetailsEntity> jobPosts) {
+		super();
+		this.id = id;
+		this.companyname = companyname;
+		this.email = email;
+		this.mobileNumber = mobileNumber;
+		this.password = password;
+		this.jobPosts = jobPosts;
+	}
 	
 	 
 	 
