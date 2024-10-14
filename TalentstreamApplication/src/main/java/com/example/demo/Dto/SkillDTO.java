@@ -9,8 +9,9 @@ public String getSkill() {
 	return skill;
 }
 
-public void setSkillName(String skillName) {
-	this.skill = skillName;
+
+public void setSkill(String skill) {
+	this.skill = skill;
 }
 public SkillDTO() {
 }

@@ -28,18 +28,20 @@ public ResponseEntity<Map<String,String>> handleValidationExceptions(MethodArgum
     		
     	if(allFieldsEmpty) {
     	    m.put("message", "All Fields are required");
-    	    return new ResponseEntity<>(m, HttpStatus.UNAUTHORIZED);
+    	    return new ResponseEntity<>(m, HttpStatus.OK);
     	    }
     	    
     for(String field:fieldOrder) {
-     for(FieldError firstError:ex.getBindingResult().getFieldErrors()) {
+     for(FieldError firstError:ex.getBindingResult().getFieldErrors()) 
+     {
+    	 System.out.println("Validation error for field: " + firstError.getField() + " - " + firstError.getDefaultMessage()); 	 
            if(firstError.getField().equals(field)) {
         	 m.put(field,firstError.getDefaultMessage());
-        	 return new ResponseEntity<>(m,HttpStatus.UNAUTHORIZED);
+        	 return new ResponseEntity<>(m,HttpStatus.OK);
            }
      }
     }
-      return new ResponseEntity<>(m, HttpStatus.UNAUTHORIZED);
+      return new ResponseEntity<>(m, HttpStatus.OK);
     	}
 @ExceptionHandler(CustomException.class)
 public ResponseEntity<Map<String,String>> handleFieldValidationException(CustomException ex) {

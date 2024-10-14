@@ -46,7 +46,7 @@ public class Recruiter {
 	private String password;
 	
 @OneToMany (cascade = CascadeType.ALL)
-private List<JobPostDetailsEntity> jobPosts;
+private List<JobPost> jobPosts;
 	
 	public int getId() {
 		return id;
@@ -80,10 +80,10 @@ private List<JobPostDetailsEntity> jobPosts;
 	public void setPassword(String password) {
 		this.password = password;
 	}
-	public List<JobPostDetailsEntity> getJobPosts() {
+	public List<JobPost> getJobPosts() {
 		return jobPosts;
 	}
-	public void setJobPosts(List<JobPostDetailsEntity> jobPosts) {
+	public void setJobPosts(List<JobPost> jobPosts) {
 		this.jobPosts = jobPosts;
 	}
 	public Recruiter() {
@@ -91,7 +91,7 @@ private List<JobPostDetailsEntity> jobPosts;
 	public Recruiter(int id, @NotBlank(message = "companyname is required") String companyname,
 			@NotBlank(message = "email is required") String email,
 			@NotEmpty(message = "mobilenumber is required") String mobileNumber,
-			@NotEmpty(message = "password is required") String password, List<JobPostDetailsEntity> jobPosts) {
+			@NotEmpty(message = "password is required") String password, List<JobPost> jobPosts) {
 		super();
 		this.id = id;
 		this.companyname = companyname;

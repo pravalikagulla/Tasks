@@ -30,7 +30,7 @@ import jakarta.validation.Valid;
 public class RecruiterController {
     
 @Autowired
- RecruiterService recruiterservice;
+ private RecruiterService recruiterservice;
 
    @PostMapping("/Recruiterregistration")
    public ResponseEntity<APIResponse<RecruiterDTO>> createRecruiter(@Valid @RequestBody RecruiterDTO recruiterDTO) {    
@@ -65,8 +65,11 @@ public class RecruiterController {
   } 
 
   @PostMapping("/postjob/{email}")
-  public ResponseEntity<APIResponse<JobPostDetailsDTO>>postJob(@PathVariable  String email, @RequestBody @Valid JobPostDetailsDTO jobPostDetailsDTO) {
+  public ResponseEntity<APIResponse<JobPostDetailsDTO>>postJob(@PathVariable String email, @RequestBody @Valid JobPostDetailsDTO jobPostDetailsDTO) {
+	  System.out.println("received email");
+	  System.out.println("received jobpost details");
       JobPostDetailsDTO createdJob = recruiterservice.postJob(email, jobPostDetailsDTO);
+      System.out.println("job found");
       return new ResponseEntity<>(new APIResponse<>("job created sucessfully",createdJob,HttpStatus.OK.value()), HttpStatus.CREATED);
 }
 }

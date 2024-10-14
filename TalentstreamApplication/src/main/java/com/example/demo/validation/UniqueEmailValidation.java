@@ -1,31 +1,4 @@
-//package com.example.demo.validation;
-//
-//import javax.validation.ConstraintValidator;
-//
-//import org.springframework.beans.factory.annotation.Autowired;
-//
-//import com.example.demo.repository.RecruiterRepository;
-//
-//// this class will have validations
-//public class UniqueEmailValidation implements ConstraintValidator<UniqueEmailValidator, String>{
-//	
-//	public boolean isValid(String value, ConstraintValidator context)
-//	
-//	@Autowired
-//	private RecruiterRepository rep;
-//	public UniqueEmailValidation(RecruiterRepository rep)
-//	{
-//		this.rep=rep;
-//	}
-//	 if(rep.findByEmailAddress(value).size() == 0)
-//	 {
-//		 return true;
-//	 }
-//	 else {
-//		 return false;
-//	 }
-//	
-//}
+
 package com.example.demo.validation;
 
 import jakarta.validation.ConstraintValidator;

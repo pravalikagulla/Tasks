@@ -4,7 +4,7 @@ package com.example.demo.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.example.demo.entity.JobPostDetailsEntity;
+import com.example.demo.entity.JobPost;
 import com.example.demo.entity.Recruiter;
 import com.example.demo.entity.Skill;
 import com.example.demo.exception.CustomException;
@@ -109,32 +109,74 @@ public  JobPostDetailsDTO postJob(String email, JobPostDetailsDTO jobPostDto){
 	Recruiter recruiter = recruiterRep.findByEmail(email)
 			                           .orElseThrow(() -> new CustomException("email","no account found"));
 	List<Skill> getSkills = new ArrayList<Skill>();
-	for(SkillDTO skillName: jobPostDto.getSkills()) {
-	if(skillRepo.existsBySkill(skillName.getSkill()).isPresent()) {
-		getSkills.add(skillRepo.existsBySkill(skillName.getSkill()).get());
+	for(SkillDTO skillDTO: jobPostDto.getSkills()) {
+	if(skillRepo.existsBySkill(skillDTO.getSkill()).isPresent()) {
+		getSkills.add(skillRepo.existsBySkill(skillDTO.getSkill()).get());
+	  System.out.println("got skill");
 		
 	}
 		else {
-			Skill skill = new Skill();
-			skill .setSkill(skillName.getSkill());
-			skill = skillRepo.save(skill);
-			getSkills.add(skill);	
+			Skill newSkill = new Skill();
+			newSkill.setSkill(skillDTO.getSkill());
+            Skill savedSkill = skillRepo.save(newSkill); 
+            getSkills.add(savedSkill);
 			}
   }
-	jobPostDto.setSkills(getSkills());
-	JobPostDetailsEntity jobpost = toJobEntity(jobPostDto);
-	JobPostDetailsEntity postJob= jobPostRepo.save(jobpost);
-	List<JobPostDetailsEntity> jobDetails = recruiter.getJobPosts();
+	
+	JobPost jobpost = toJobEntity(jobPostDto);
+	JobPost postJob= jobPostRepo.save(jobpost);
+	List<JobPost> jobDetails = recruiter.getJobPosts();
 	jobDetails.add(postJob);
 	recruiter.setJobPosts(jobDetails);
 	recruiterRep.save(recruiter);
+	if(postJob != null) {
+		System.out.println("job post not found ");
+	}
+	else
+	{
+		System.out.println("job post added");
+	}
 	return toJobDto(postJob);
-}
+} 
+//public JobPostDetailsDTO postJob(String email, JobPostDetailsDTO jobPostDto) {
+//    // Find recruiter by email, throw exception if not found
+//    Recruiter recruiter = recruiterRep.findByEmail(email)
+//        .orElseThrow(() -> new CustomException("email", "no account found"));
+//
+//    List<Skill> getSkills = new ArrayList<>();
+//
+//    // Loop through skills in the jobPostDto
+//    for (SkillDTO skillDTO : jobPostDto.getSkills()) {
+//        String skillName = skillDTO.getSkill(); 
+//        if (skillRepo.existsBySkill(skillName).isPresent()) {
+//            Skill existingSkill = skillRepo.existsBySkill(skillName).get();
+//            getSkills.add(existingSkill);
+//        } else {
+//            Skill newSkill = new Skill();
+//            newSkill.setSkill(skillName); 
+//            Skill savedSkill = skillRepo.save(newSkill); 
+//            getSkills.add(savedSkill);
+//        }
+//    }
+//
+//    // Set the skills list in the jobPostDto
+////    jobPostDto.setSkills(getSkills);
+//
+//    // Convert DTO to entity and save the job post
+//    JobPostDetailsEntity jobPostEntity = toJobEntity(jobPostDto);
+//    JobPostDetailsEntity savedJobPost = jobPostRepo.save(jobPostEntity);
+//
+//    // Add the job post to the recruiter's job posts and save
+//    recruiter.getJobPosts().add(savedJobPost);
+//    recruiterRep.save(recruiter);
+//
+//    // Return the saved job post as DTO
+//    return toJobDto(savedJobPost);
+//}
 
 
-
-public JobPostDetailsEntity toJobEntity(JobPostDetailsDTO jobPostDTO) {
-	  JobPostDetailsEntity jobPost = new JobPostDetailsEntity();
+public JobPost toJobEntity(JobPostDetailsDTO jobPostDTO) {
+	  JobPost jobPost = new JobPost();
 jobPost.setJobTitle(jobPostDTO.getJobTitle());
 jobPost.setJobDescription(jobPostDTO.getJobDescription());
 jobPost.setMinimumExperience(jobPostDTO.getMinimumExperience());
@@ -150,7 +192,7 @@ jobPost.setSkills(jobPost.getSkills());
 return jobPost;
 }
 
-public JobPostDetailsDTO toJobDto(JobPostDetailsEntity jobPost){
+public JobPostDetailsDTO toJobDto(JobPost jobPost){
 	JobPostDetailsDTO jobPostdto = new JobPostDetailsDTO();
 jobPost.setJobTitle(jobPost.getJobTitle());
 jobPost.setJobDescription(jobPost.getJobDescription());
